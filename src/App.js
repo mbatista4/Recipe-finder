@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import Recipe from './Recipe'
+import * as dotenv from 'dotenv';
 import './App.css';
 
-
+dotenv.config();
 
 const App = () => {
 
+
+  const APP_KEY  = process.env.REACT_APP_APP_KEY;
+  const APP_ID  = process.env.REACT_APP_APP_ID;
+
   const [recipes, setRecipes] = useState([]);
-  const [counter, setCounter] = useState(0);
   const [search, setSearch] = useState('');
   const [query, setQuery] = useState('chicken');
 
-  const APP_ID = '33defd7d';
-  const APP_KEY = 'dcf0cf4e8771da492daa6b1aa296de5d';
   const BASE_URL = `https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`;
 
   useEffect(() => {
     getRecipes();
+    // eslint-disable-next-line 
   }, [query]);
 
 
@@ -26,7 +29,7 @@ const App = () => {
       const data = await res.json();
 
       const { hits } = data;
-      console.log(hits);
+      console.log(hits[0]);
       setRecipes(hits);
 
     } catch (error) {
